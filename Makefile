@@ -55,12 +55,18 @@ dump_cppflags:
 clean:
 	rm -f *.o nsxiv version.h
 
-install-all: install install-desktop install-icon
+install-all: install install-desktop install-icon install-rifle
 
 install-desktop:
 	@echo "INSTALL nsxiv.desktop"
 	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
 	cp etc/nsxiv.desktop $(DESTDIR)$(PREFIX)/share/applications
+
+install-rifle:
+	@echo "INSTALL nsxiv-rifle"
+	chmod +x nsxiv-rifle
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	cp -p nsxiv-rifle $(DESTDIR)$(PREFIX)/bin
 
 install-icon:
 	@echo "INSTALL icon"
@@ -96,6 +102,8 @@ install: all
 uninstall: uninstall-icon
 	@echo "REMOVE bin/nsxiv"
 	rm -f $(DESTDIR)$(PREFIX)/bin/nsxiv
+	@echo "REMOVE bin/nsxiv-rifle"
+	rm -f $(DESTDIR)$(PREFIX)/bin/nsxiv-rifle
 	@echo "REMOVE nsxiv.1"
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/nsxiv.1
 	@echo "REMOVE nsxiv.desktop"
