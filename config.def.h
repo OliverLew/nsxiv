@@ -71,10 +71,10 @@ static const bool ALPHA_LAYER = false;
 #ifdef INCLUDE_THUMBS_CONFIG
 
 /* thumbnail sizes in pixels (width == height): */
-static const int thumb_sizes[] = { 32, 64, 96, 128, 160 };
+static const int thumb_sizes[] = { 32, 48, 64, 96, 128, 192, 256, 384, 512 };
 
 /* thumbnail size at startup, index into thumb_sizes[]: */
-static const int THUMB_SIZE = 3;
+static const int THUMB_SIZE = 5;
 
 #endif
 #ifdef INCLUDE_MAPPINGS_CONFIG
@@ -91,6 +91,7 @@ static const keymap_t keys[] = {
 	{ 0,            XK_q,             g_quit,               0 },
 	{ 0,            XK_Q,             g_pick_quit,          0 },
 	{ 0,            XK_Return,        g_switch_mode,        None },
+	{ 0,            XK_BackSpace,     g_switch_mode,        None },
 	{ 0,            XK_f,             g_toggle_fullscreen,  None },
 	{ 0,            XK_b,             g_toggle_bar,         None },
 	{ ControlMask,  XK_x,             g_prefix_external,    None },
@@ -135,18 +136,20 @@ static const keymap_t keys[] = {
 	{ 0,            XK_R,             t_reload_all,         None },
 
 	{ 0,            XK_n,             i_navigate,           +1 },
-	{ 0,            XK_n,             i_scroll_to_edge,     DIR_LEFT | DIR_UP },
-	{ 0,            XK_space,         i_navigate,           +1 },
+	{ 0,            XK_Right,         i_navigate,           +1 },
+	{ 0,            XK_Up,            i_navigate,           +1 },
 	{ 0,            XK_p,             i_navigate,           -1 },
-	{ 0,            XK_p,             i_scroll_to_edge,     DIR_LEFT | DIR_UP },
-	{ 0,            XK_BackSpace,     i_navigate,           -1 },
+	{ 0,            XK_Left,          i_navigate,           -1 },
+	{ 0,            XK_Down,          i_navigate,           -1 },
 	{ 0,            XK_bracketright,  i_navigate,           +10 },
 	{ 0,            XK_bracketleft,   i_navigate,           -10 },
 	{ ControlMask,  XK_6,             i_alternate,          None },
 	{ ControlMask,  XK_n,             i_navigate_frame,     +1 },
+	{ 0,            XK_period,        i_navigate_frame,     +1 },
 	{ ControlMask,  XK_p,             i_navigate_frame,     -1 },
-	{ ControlMask,  XK_space,         i_toggle_animation,   None },
+	{ 0,            XK_comma,         i_navigate_frame,     -1 },
 	{ ControlMask,  XK_a,             i_toggle_animation,   None },
+	{ 0,            XK_space,         i_toggle_animation,   None },
 	{ 0,            XK_h,             i_scroll,             DIR_LEFT },
 	{ 0,            XK_Left,          i_scroll,             DIR_LEFT },
 	{ 0,            XK_j,             i_scroll,             DIR_DOWN },
@@ -180,11 +183,17 @@ static const keymap_t keys[] = {
 static const button_t buttons_img[] = {
 	/* modifiers    button            function              argument */
 	{ 0,            1,                i_cursor_navigate,    None },
-	{ ControlMask,  1,                i_drag,               DRAG_RELATIVE },
+	{ 0,            1,                i_drag,               DRAG_RELATIVE },
 	{ 0,            2,                i_drag,               DRAG_ABSOLUTE },
 	{ 0,            3,                g_switch_mode,        None },
-	{ 0,            4,                g_zoom,               +1 },
-	{ 0,            5,                g_zoom,               -1 },
+	{ 0,            4,                i_scroll,             DIR_UP },
+	{ 0,            5,                i_scroll,             DIR_DOWN },
+	{ 0,            6,                i_scroll,             DIR_LEFT },
+	{ 0,            7,                i_scroll,             DIR_RIGHT },
+	{ 0,            8,                i_navigate,           +1 },
+	{ 0,            9,                i_navigate,           -1 },
+	{ ControlMask,  4,                g_zoom,               +1 },
+	{ ControlMask,  5,                g_zoom,               -1 },
 };
 
 /* mouse button mappings for thumbnail mode: */
@@ -199,9 +208,9 @@ static const button_t buttons_tns[] = {
 };
 
 /* true means NAV_WIDTH is relative (33%), false means absolute (33 pixels) */
-static const bool NAV_IS_REL = true;
+static const bool NAV_IS_REL = false;
 /* width of navigation area, 0 disables cursor navigation, */
-static const unsigned int NAV_WIDTH = 33;
+static const unsigned int NAV_WIDTH = 192;
 
 /* mouse cursor on left, middle and right part of the window */
 static const cursor_t imgcursor[3] = {
